@@ -1,0 +1,116 @@
+<header>
+  <nav class="navbar" aria-label="Navegación principal">
+    <div class="nav-brand">
+      <span class="nav-icon" aria-hidden="true">🇵🇪</span>
+      <span class="brand-name">The Tourist Perú</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#destinos">Destinos</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="javascript:void(0)" (click)="irAContacto()">Contacto</a></li>
+    </ul>
+
+    <button type="button" class="btn-reservar" (click)="irAReservas()" aria-label="Ir a mis reservas">
+      Mis Reservas
+    </button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="inicio" aria-labelledby="hero-title">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Explora la Magia<br><span class="accent">del Perú</span></h1>
+      <p>Desde los picos de los Andes hasta la selva amazónica. Tu aventura peruana comienza aquí.</p>
+      <div class="hero-buttons">
+        <button type="button" class="btn-primary" (click)="irAReservas()">
+          <span aria-hidden="true">🗺️</span> Gestionar Reservas
+        </button>
+        <a href="#destinos" class="btn-secondary">Ver Destinos</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="destinos" aria-labelledby="destinos-title">
+    <h2 class="section-title" id="destinos-title">Destinos Imperdibles</h2>
+
+    <div class="cards-grid">
+      <article class="card">
+        <div class="card-img paris" role="img" aria-label="Machu Picchu"></div>
+        <div class="card-body">
+          <h3>Cusco, Machu Picchu ⛰️</h3>
+          <p>Visita la maravilla del mundo y recorre las calles históricas del Imperio Inca.</p>
+          <strong class="precio">Desde S/ 850 por persona</strong>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-img tokio" role="img" aria-label="Costa Verde Lima"></div>
+        <div class="card-body">
+          <h3>Lima, Miraflores 🌊</h3>
+          <p>Disfruta de la capital gastronómica del mundo frente al Océano Pacífico.</p>
+          <strong class="precio">Desde S/ 450 por persona</strong>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-img nyc" role="img" aria-label="Plaza de Arequipa"></div>
+        <div class="card-body">
+          <h3>Arequipa, Ciudad Blanca 🌋</h3>
+          <p>Historia colonial y paisajes volcánicos impresionantes bajo el cielo azul.</p>
+          <strong class="precio">Desde S/ 600 por persona</strong>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-img roma" role="img" aria-label="Selva Iquitos"></div>
+        <div class="card-body">
+          <h3>Iquitos, Amazonas 🌿</h3>
+          <p>Adéntrate en el pulmón del mundo y navega por el río más largo del planeta.</p>
+          <strong class="precio">Desde S/ 950 por persona</strong>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section bg-light" id="nosotros" aria-labelledby="features-title">
+    <h2 class="section-title" id="features-title">¿Por qué viajar con nosotros?</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <span class="feature-icon" aria-hidden="true">🛡️</span>
+        <h3>Guías Certificados</h3>
+        <p>Expertos locales que conocen cada rincón de nuestra tierra.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon" aria-hidden="true">💰</span>
+        <h3>Precios Justos</h3>
+        <p>Tarifas competitivas para que todos los peruanos puedan viajar.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon" aria-hidden="true">🎧</span>
+        <h3>Atención 24/7</h3>
+        <p>Estamos contigo en cada paso de tu travesía por el Perú.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon" aria-hidden="true">⛰️</span>
+        <h3>Rutas Exclusivas</h3>
+        <p>Acceso a destinos únicos fuera del circuito turístico tradicional.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section" id="contacto">
+    <h2>¿Listo para tu próxima aventura?</h2>
+    <p>Reserva hoy y vive la experiencia que recordarás siempre</p>
+    <button type="button" class="btn-primary large" (click)="irAReservas()">
+      ✈️ Ver Mis Reservas
+    </button>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>&copy; 2026 The Tourist Perú &mdash; Todos los derechos reservados</p>
+  <p><small>Proyecto Universitario S08 | M08</small></p>
+</footer>

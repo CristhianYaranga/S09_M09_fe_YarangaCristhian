@@ -1,0 +1,235 @@
+/* ── VARIABLES Y RESET ──────────────────────── */
+:root {
+  --primary: #d91d1d; /* Rojo Perú Elegante */
+  --primary-hover: #b91818;
+  --secondary: #6366f1;
+  --dark: #0f172a;
+  --slate-400: #94a3b8;
+  --slate-600: #475569;
+  --white: #ffffff;
+  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  color: var(--dark);
+  line-height: 1.5;
+  background-color: #fff;
+}
+
+/* ── NAVBAR ────────────────────────────────── */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.8rem 5%;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-brand {
+  display: flex; align-items: center; gap: 0.7rem;
+  color: var(--white); font-size: 1.5rem; font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.nav-links {
+  display: flex; list-style: none; gap: 2.5rem;
+}
+
+.nav-links a {
+  color: #cbd5e1; text-decoration: none; font-size: 0.9rem;
+  font-weight: 500; transition: all 0.3s ease;
+}
+
+.nav-links a:hover { color: var(--primary); }
+
+.btn-reservar {
+  background: var(--primary);
+  color: var(--white); border: none; padding: 0.6rem 1.5rem;
+  border-radius: 12px; cursor: pointer; font-weight: 600;
+  transition: all 0.3s ease; font-size: 0.9rem;
+}
+
+.btn-reservar:hover {
+  background: var(--white);
+  color: var(--dark);
+  transform: translateY(-2px);
+}
+
+/* ── HERO ──────────────────────────────────── */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--dark);
+  padding: 0 5%;
+}
+
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  /* Imagen de Cusco / Andes */
+  background: url('https://images.unsplash.com/photo-1526392060635-9d6019884377?q=80&w=2070&auto=format&fit=crop') center/cover;
+  opacity: 0.45;
+}
+
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at center, transparent 0%, var(--dark) 90%);
+}
+
+.hero-content {
+  position: relative; z-index: 1; text-align: center;
+  max-width: 850px;
+}
+
+.hero-content h1 {
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  color: var(--white); font-weight: 900;
+  line-height: 1.1; margin-bottom: 1.5rem;
+  letter-spacing: -2px;
+}
+
+.hero-content h1 span {
+  background: linear-gradient(to right, #ff4d4d, #d91d1d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-content p {
+  font-size: 1.25rem; color: #cbd5e1; margin-bottom: 3rem;
+  max-width: 600px; margin-inline: auto;
+}
+
+.hero-buttons { display: flex; gap: 1.5rem; justify-content: center; }
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--white); border: none; padding: 1rem 2.5rem;
+  border-radius: 14px; font-size: 1rem; font-weight: 700;
+  cursor: pointer; transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(217, 29, 29, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  background: var(--primary-hover);
+  box-shadow: 0 15px 30px rgba(217, 29, 29, 0.4);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1); color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem 2.5rem; border-radius: 14px; font-size: 1rem;
+  text-decoration: none; font-weight: 600;
+  transition: all 0.3s ease; backdrop-filter: blur(5px);
+}
+
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.2); border-color: var(--white); }
+
+/* ── SECTIONS ──────────────────────────────── */
+.section { padding: 8rem 5%; max-width: 1300px; margin: 0 auto; }
+
+.section-title {
+  text-align: center; font-size: 2.8rem; color: var(--dark);
+  margin-bottom: 4rem; font-weight: 800; letter-spacing: -1px;
+}
+
+.bg-light { background: #f8fafc; max-width: 100%; }
+
+/* ── CARDS (IMÁGENES DE PERÚ) ──────────────── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  background: var(--white); border-radius: 24px; overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid #f1f5f9;
+}
+
+.card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+.card-img {
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .card-img { transform: scale(1.1); }
+
+/* Mantenemos tus nombres de clases pero con fotos de destinos peruanos */
+.paris { background-image: url('https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=1000&auto=format&fit=crop'); } /* Machu Picchu */
+.tokio { background-image: url('https://images.unsplash.com/photo-1531968455001-5c5277a9b111?q=80&w=1000&auto=format&fit=crop'); } /* Lima / Miraflores */
+.nyc   { background-image: url('https://images.unsplash.com/photo-1594519159336-39f82637213e?q=80&w=1000&auto=format&fit=crop'); } /* Arequipa */
+.roma  { background-image: url('https://images.unsplash.com/photo-1516308362147-1af693b137d0?q=80&w=1000&auto=format&fit=crop'); } /* Selva / Amazonas */
+
+.card-body { padding: 1.8rem; }
+.card-body h3 { font-size: 1.3rem; margin-bottom: 0.8rem; font-weight: 700; color: var(--dark); }
+.card-body p { color: var(--slate-600); font-size: 0.95rem; margin-bottom: 1.5rem; }
+.precio {
+  display: block; color: var(--primary); font-weight: 800;
+  font-size: 1rem; border-top: 1px solid #f1f5f9; padding-top: 1rem;
+}
+
+/* ── FEATURES ──────────────────────────────── */
+.features-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.feature {
+  text-align: center; padding: 3rem 2rem;
+  background: var(--white); border-radius: 24px;
+  transition: all 0.3s ease; border: 1px solid #f1f5f9;
+}
+
+.feature:hover { border-color: var(--primary); transform: translateY(-5px); }
+.feature-icon { font-size: 3rem; display: block; margin-bottom: 1.5rem; }
+.feature h3 { font-size: 1.25rem; margin-bottom: 1rem; font-weight: 700; }
+
+/* ── CTA ───────────────────────────────────── */
+.cta-section {
+  background: var(--dark);
+  position: relative; overflow: hidden;
+  text-align: center; padding: 6rem 5%; color: var(--white);
+  border-radius: 0;
+}
+
+.cta-section h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1.5rem; }
+.cta-section p  { color: #94a3b8; font-size: 1.2rem; margin-bottom: 3rem; }
+
+/* ── FOOTER ────────────────────────────────── */
+.footer {
+  background: #020617; color: #64748b;
+  text-align: center; padding: 4rem 2rem;
+  font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer p:first-child { color: var(--white); font-weight: 600; margin-bottom: 0.5rem; }
+
+/* ── RESPONSIVE ────────────────────────────── */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hero-content h1 { font-size: 2.5rem; }
+  .hero-buttons { flex-direction: column; }
+  .section { padding: 4rem 5%; }
+}

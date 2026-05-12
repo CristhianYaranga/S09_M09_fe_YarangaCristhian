@@ -1,0 +1,255 @@
+/* ── VARIABLES Y RESET ─────────────────────── */
+:root {
+  --primary: #d91d1d;
+  --dark: #0f172a;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --white: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box !important;
+}
+
+.page-wrapper {
+  min-height: 100vh;
+  background-color: var(--slate-100) !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  padding-bottom: 4rem;
+}
+
+/* ── HEADER ────────────────────────────────── */
+.crud-header {
+  background: var(--dark) !important;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+  padding: 1.5rem 5% !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 4px solid var(--primary) !important;
+  margin-bottom: 2rem;
+}
+
+.header-left { display: flex; align-items: center; gap: 1.5rem; }
+.header-text h1 { color: var(--white) !important; font-size: 1.6rem; font-weight: 800; }
+.header-text p { color: var(--slate-400) !important; font-size: 0.9rem; }
+
+.btn-back {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: var(--white) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-back:hover { background: var(--white) !important; color: var(--dark) !important; }
+
+/* ── FORMULARIO (BORDES GARANTIZADOS) ──────── */
+.form-card {
+  background: var(--white) !important;
+  margin: 0 5% 2rem !important;
+  border-radius: 20px !important;
+  padding: 2.5rem !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid var(--slate-200) !important;
+  display: block !important;
+}
+
+.form-header { margin-bottom: 2rem; }
+.form-header h2 { font-size: 1.5rem; font-weight: 800; color: var(--dark); }
+
+.form-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.form-group { display: flex !important; flex-direction: column; gap: 0.6rem; }
+.form-group label { font-size: 0.9rem; font-weight: 700; color: #334155 !important; }
+
+/* ESTOS SON LOS CUADROS QUE NO SE VEÍAN */
+.form-group input,
+.form-group select {
+  width: 100% !important;
+  height: 45px !important; /* Altura fija para consistencia */
+  padding: 0.8rem 1rem !important;
+  /* BORDE FORZADO: Grosor, Estilo Sólido y Color Gris Oscuro */
+  border: 2px solid #475569 !important;
+  border-radius: 10px !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  font-size: 1rem !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 4px rgba(217, 29, 29, 0.1) !important;
+}
+
+/* ── BOTONES ACCIÓN ── */
+.form-actions {
+  display: flex !important;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--slate-100);
+}
+
+.btn-new, .btn-save, .btn-primary {
+  background-color: var(--primary) !important;
+  color: var(--white) !important;
+  border: none !important;
+  padding: 0.8rem 1.8rem;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(217, 29, 29, 0.2);
+}
+
+.btn-cancel {
+  background-color: var(--slate-200) !important;
+  color: #334155 !important;
+  border: none !important;
+  padding: 0.8rem 1.8rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ── TABLA DE RESERVAS ── */
+.table-card {
+  background: var(--white) !important;
+  margin: 0 5% !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid var(--slate-200) !important;
+  overflow: hidden !important;
+}
+
+.table-header {
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--slate-100);
+}
+
+table { width: 100% !important; border-collapse: collapse !important; }
+th {
+  background: #f8fafc !important;
+  padding: 1.2rem !important;
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--slate-500) !important;
+  border-bottom: 2px solid var(--slate-200) !important;
+}
+td { padding: 1.2rem !important; border-bottom: 1px solid var(--slate-100) !important; }
+
+/* ── ESTADOS ── */
+.status-badge {
+  padding: 0.4rem 0.8rem !important;
+  border-radius: 50px !important;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+.Confirmada { background: #dcfce7 !important; color: #166534 !important; }
+.Pendiente { background: #fef9c3 !important; color: #854d0e !important; }
+.Cancelada { background: #fee2e2 !important; color: #991b1b !important; }
+
+/* ── LOADER ── */
+.spinner {
+  width: 40px; height: 40px;
+  border: 4px solid var(--slate-200);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── VALIDACIONES DE FORMULARIO ─────────────────── */
+.input-validation {
+  transition: all 0.3s ease !important;
+}
+
+.input-validation.is-invalid {
+  border-color: #ef4444 !important;
+  background-color: #fee2e2 !important;
+}
+
+.input-validation.is-valid {
+  border-color: #16a34a !important;
+  background-color: #dcfce7 !important;
+}
+
+.error-message {
+  color: #dc2626 !important;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 0.4rem;
+  animation: slideDown 0.2s ease;
+}
+
+.error-message span {
+  display: block;
+  margin: 0.2rem 0 0 0;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── FEEDBACK CONTAINER ──────────────────────────── */
+.feedback-container {
+  margin: 0 5% 2rem;
+  animation: slideDown 0.3s ease;
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  background-color: #ecfdf5 !important;
+  border-left: 4px solid #10b981 !important;
+  color: #047857 !important;
+}
+
+.alert-error {
+  background-color: #fee2e2 !important;
+  border-left-color: #ef4444 !important;
+  color: #991b1b !important;
+}
+
+.alert-success {
+  background-color: #ecfdf5 !important;
+  border-left-color: #10b981 !important;
+  color: #047857 !important;
+}
+
+.alert-icon {
+  font-size: 1.25rem;
+}

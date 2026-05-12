@@ -1,0 +1,238 @@
+<main class="page-wrapper">
+
+  <header class="crud-header">
+    <div class="header-left">
+      <button type="button" class="btn-back" (click)="volverALanding()" aria-label="Volver al inicio">
+        <span aria-hidden="true">←</span> Volver
+      </button>
+      <div class="header-text">
+        <h1>Gestión de Reservas <span>✈️</span></h1>
+        <p>Administra y organiza los viajes de tus clientes</p>
+      </div>
+    </div>
+    <button type="button" class="btn-new" (click)="abrirFormularioNuevo()">
+      <span aria-hidden="true">+</span> Nueva Reserva
+    </button>
+  </header>
+
+  <section class="feedback-container" *ngIf="mensaje">
+    <div class="alert" [ngClass]="tipoMensaje === 'success' ? 'alert-success' : 'alert-error'">
+      <span class="alert-icon">{{ tipoMensaje === 'success' ? '✅' : '⚠️' }}</span>
+      <p>{{ mensaje }}</p>
+    </div>
+  </section>
+
+  <section class="form-section" *ngIf="modoFormulario">
+    <div class="form-card">
+      <div class="form-header">
+        <h2>{{ editando ? '✏️ Editar Reserva' : '🆕 Nueva Reserva' }}</h2>
+        <p>Completa todos los campos obligatorios (*)</p>
+      </div>
+
+      <form (ngSubmit)="guardar()" #reservaForm="ngForm">
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="nombre">Nombre del cliente *</label>
+            <input type="text" id="nombre" [(ngModel)]="reservaActual.nombreCliente"
+                   name="nombreCliente" placeholder="Ej: Juan Pérez" required
+                   minlength="3"
+                   #nombreCtrl="ngModel"
+                   class="input-validation"
+                   [class.is-invalid]="nombreCtrl.invalid && nombreCtrl.touched"
+                   [class.is-valid]="nombreCtrl.valid && nombreCtrl.touched">
+            <div class="error-message" *ngIf="nombreCtrl.invalid && nombreCtrl.touched">
+              <span *ngIf="nombreCtrl.errors?.['required']">El nombre es obligatorio</span>
+              <span *ngIf="nombreCtrl.errors?.['minlength']">Mínimo 3 caracteres</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" [(ngModel)]="reservaActual.email"
+                   name="email" placeholder="correo@ejemplo.com" required
+                   email
+                   #emailCtrl="ngModel"
+                   class="input-validation"
+                   [class.is-invalid]="emailCtrl.invalid && emailCtrl.touched"
+                   [class.is-valid]="emailCtrl.valid && emailCtrl.touched">
+            <div class="error-message" *ngIf="emailCtrl.invalid && emailCtrl.touched">
+              <span *ngIf="emailCtrl.errors?.['required']">El email es obligatorio</span>
+              <span *ngIf="emailCtrl.errors?.['email']">Email inválido</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="destino">Destino *</label>
+            <input type="text" id="destino" [(ngModel)]="reservaActual.destino"
+                   name="destino" placeholder="Ej: Cusco, Arequipa..." required
+                   #destinoCtrl="ngModel"
+                   class="input-validation"
+                   [class.is-invalid]="destinoCtrl.invalid && destinoCtrl.touched"
+                   [class.is-valid]="destinoCtrl.valid && destinoCtrl.touched">
+            <div class="error-message" *ngIf="destinoCtrl.invalid && destinoCtrl.touched">
+              <span *ngIf="destinoCtrl.errors?.['required']">El destino es obligatorio</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="personas">N° Personas *</label>
+            <input type="number" id="personas" [(ngModel)]="reservaActual.numPersonas"
+                   name="numPersonas" min="1" max="20" required
+                   #personasCtrl="ngModel"
+                   class="input-validation"
+                   [class.is-invalid]="personasCtrl.invalid && personasCtrl.touched"
+                   [class.is-valid]="personasCtrl.valid && personasCtrl.touched">
+            <div class="error-message" *ngIf="personasCtrl.invalid && personasCtrl.touched">
+              <span *ngIf="personasCtrl.errors?.['required']">Cantidad requerida</span>
+              <span *ngIf="personasCtrl.errors?.['min']">Mínimo 1 persona</span>
+              <span *ngIf="personasCtrl.errors?.['max']">Máximo 20 personas</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="salida">Fecha de Viaje *</label>
+            <input type="date" id="salida" [(ngModel)]="reservaActual.fechaViaje"
+                   name="fechaViaje" required
+                   #salidaCtrl="ngModel"
+                   class="input-validation"
+                   [class.is-invalid]="salidaCtrl.invalid && salidaCtrl.touched"
+                   [class.is-valid]="salidaCtrl.valid && salidaCtrl.touched">
+            <div class="error-message" *ngIf="salidaCtrl.invalid && salidaCtrl.touched">
+              <span *ngIf="salidaCtrl.errors?.['required']">La fecha es obligatoria</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="regreso">Fecha de Regreso *</label>
+            <input type="date" id="regreso" [(ngModel)]="reservaActual.fechaRegreso"
+                   name="fechaRegreso" required
+                   #regresoCtrl="ngModel"
+                   class="input-validation"
+                   [class.is-invalid]="regresoCtrl.invalid && regresoCtrl.touched"
+                   [class.is-valid]="regresoCtrl.valid && regresoCtrl.touched">
+            <div class="error-message" *ngIf="regresoCtrl.invalid && regresoCtrl.touched">
+              <span *ngIf="regresoCtrl.errors?.['required']">La fecha es obligatoria</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="precio">Precio Total ($) *</label>
+            <div class="input-with-icon">
+              <span>$</span>
+              <input type="number" id="precio" [(ngModel)]="reservaActual.precioTotal"
+                     name="precioTotal" min="0" step="0.01" required
+                     #precioCtrl="ngModel"
+                     class="input-validation"
+                     [class.is-invalid]="precioCtrl.invalid && precioCtrl.touched"
+                     [class.is-valid]="precioCtrl.valid && precioCtrl.touched">
+            </div>
+            <div class="error-message" *ngIf="precioCtrl.invalid && precioCtrl.touched">
+              <span *ngIf="precioCtrl.errors?.['required']">El precio es obligatorio</span>
+              <span *ngIf="precioCtrl.errors?.['min']">El precio debe ser mayor a 0</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="estado">Estado *</label>
+            <select id="estado" [(ngModel)]="reservaActual.estado" name="estado" required
+                    #estadoCtrl="ngModel"
+                    class="input-validation"
+                    [class.is-invalid]="estadoCtrl.invalid && estadoCtrl.touched"
+                    [class.is-valid]="estadoCtrl.valid && estadoCtrl.touched">
+              <option value="">Selecciona un estado...</option>
+              <option value="Pendiente">Pendiente</option>
+              <option value="Confirmada">Confirmada</option>
+              <option value="Cancelada">Cancelada</option>
+            </select>
+            <div class="error-message" *ngIf="estadoCtrl.invalid && estadoCtrl.touched">
+              <span *ngIf="estadoCtrl.errors?.['required']">El estado es obligatorio</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="cancelar()">Cancelar</button>
+          <button type="submit" class="btn-save">
+            {{ editando ? '💾 Actualizar Cambios' : '✅ Guardar Reserva' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="table-section">
+    <div class="table-card">
+      <div class="table-header">
+        <div class="table-title">
+          <h2>📋 Lista de Reservas</h2>
+          <span class="badge-count">{{ reservas.length }} registros encontrados</span>
+        </div>
+      </div>
+
+      <div class="loader-container" *ngIf="cargando">
+        <div class="spinner"></div>
+        <p>Sincronizando con el servidor...</p>
+      </div>
+
+      <div class="empty-state" *ngIf="!cargando && reservas.length === 0">
+        <div class="empty-icon">🧳</div>
+        <h3>No hay reservas registradas</h3>
+        <p>Comienza creando una nueva reserva para tus clientes.</p>
+        <button type="button" class="btn-new" (click)="abrirFormularioNuevo()">Crear primera reserva</button>
+      </div>
+
+      <div class="table-responsive" *ngIf="!cargando && reservas.length > 0">
+        <table class="modern-table">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Destino</th>
+            <th>Itinerario (Ida/Vuelta)</th>
+            <th>Pax</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th class="text-center">Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let r of reservas">
+            <td class="text-muted">#{{ r.id }}</td>
+            <td>
+              <div class="client-info">
+                <strong>{{ r.nombreCliente }}</strong>
+                <span>{{ r.email }}</span>
+              </div>
+            </td>
+            <td>
+              <span class="destination-tag">🌍 {{ r.destino }}</span>
+            </td>
+            <td>
+              <div class="dates-info">
+                <small>🛫 {{ r.fechaViaje }}</small>
+                <small>🛬 {{ r.fechaRegreso }}</small>
+              </div>
+            </td>
+            <td class="text-center">👤 {{ r.numPersonas }}</td>
+            <td class="price-cell">${{ r.precioTotal | number:'1.2-2' }}</td>
+            <td>
+                <span class="status-badge" [ngClass]="badgeClass(r.estado)">
+                  {{ r.estado }}
+                </span>
+            </td>
+            <td>
+              <div class="actions-group">
+                <button class="btn-action edit" (click)="editarReserva(r)" title="Editar">✏️</button>
+                <button class="btn-action delete" (click)="eliminarReserva(r.id!)" title="Eliminar">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>

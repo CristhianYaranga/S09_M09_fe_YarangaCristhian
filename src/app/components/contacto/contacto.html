@@ -1,0 +1,252 @@
+<main class="page-wrapper">
+
+  <!-- Header -->
+  <header class="crud-header" *ngIf="modoFormulario || modoListado">
+    <div class="header-left">
+      <button type="button" class="btn-back" (click)="volverALanding()" aria-label="Volver al inicio">
+        <span aria-hidden="true">←</span> Volver
+      </button>
+      <div class="header-text">
+        <h1>Centro de Contacto 📧</h1>
+        <p>Ponte en contacto con nuestro equipo de soporte</p>
+      </div>
+    </div>
+    <button type="button" class="btn-new" (click)="abrirFormularioNuevo()" *ngIf="modoListado">
+      <span aria-hidden="true">+</span> Nuevo Mensaje
+    </button>
+    <button type="button" class="btn-new" (click)="verListado()" *ngIf="modoFormulario && editando">
+      <span aria-hidden="true">📋</span> Ver Mensajes
+    </button>
+  </header>
+
+  <!-- Sección de alertas -->
+  <section class="feedback-container" *ngIf="mensaje">
+    <div class="alert" [ngClass]="tipoMensaje === 'success' ? 'alert-success' : 'alert-error'">
+      <span class="alert-icon">{{ tipoMensaje === 'success' ? '✅' : '⚠️' }}</span>
+      <p>{{ mensaje }}</p>
+    </div>
+  </section>
+
+  <!-- Sección del formulario -->
+  <section class="form-section" *ngIf="modoFormulario">
+    <div class="form-card">
+      <div class="form-header">
+        <h2>{{ editando ? '✏️ Editar Mensaje' : '📨 Envíanos tu Consulta' }}</h2>
+        <p>Completa todos los campos obligatorios (*)</p>
+      </div>
+
+      <form (ngSubmit)="guardar()" #contactoForm="ngForm">
+        <div class="form-grid">
+
+          <!-- Nombre -->
+          <div class="form-group">
+            <label for="nombre">Tu Nombre *</label>
+            <input 
+              type="text" 
+              id="nombre" 
+              [(ngModel)]="contactoActual.nombre"
+              name="nombre" 
+              placeholder="Ej: Juan Pérez"
+              required
+              minlength="3"
+              #nombreCtrl="ngModel"
+              class="input-validation"
+              [class.is-invalid]="nombreCtrl.invalid && nombreCtrl.touched"
+              [class.is-valid]="nombreCtrl.valid && nombreCtrl.touched">
+            <div class="error-message" *ngIf="nombreCtrl.invalid && nombreCtrl.touched">
+              <span *ngIf="nombreCtrl.errors?.['required']">El nombre es obligatorio</span>
+              <span *ngIf="nombreCtrl.errors?.['minlength']">Mínimo 3 caracteres</span>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Tu Email *</label>
+            <input 
+              type="email" 
+              id="email" 
+              [(ngModel)]="contactoActual.email"
+              name="email" 
+              placeholder="correo@ejemplo.com"
+              required
+              email
+              #emailCtrl="ngModel"
+              class="input-validation"
+              [class.is-invalid]="emailCtrl.invalid && emailCtrl.touched"
+              [class.is-valid]="emailCtrl.valid && emailCtrl.touched">
+            <div class="error-message" *ngIf="emailCtrl.invalid && emailCtrl.touched">
+              <span *ngIf="emailCtrl.errors?.['required']">El email es obligatorio</span>
+              <span *ngIf="emailCtrl.errors?.['email']">Email inválido</span>
+            </div>
+          </div>
+
+          <!-- Teléfono -->
+          <div class="form-group">
+            <label for="telefono">Teléfono *</label>
+            <input 
+              type="tel" 
+              id="telefono" 
+              [(ngModel)]="contactoActual.telefono"
+              name="telefono" 
+              placeholder="Ej: 987654321"
+              required
+              pattern="[0-9]{9,}"
+              #telefonoCtrl="ngModel"
+              class="input-validation"
+              [class.is-invalid]="telefonoCtrl.invalid && telefonoCtrl.touched"
+              [class.is-valid]="telefonoCtrl.valid && telefonoCtrl.touched">
+            <div class="error-message" *ngIf="telefonoCtrl.invalid && telefonoCtrl.touched">
+              <span *ngIf="telefonoCtrl.errors?.['required']">El teléfono es obligatorio</span>
+              <span *ngIf="telefonoCtrl.errors?.['pattern']">Teléfono inválido (mínimo 9 dígitos)</span>
+            </div>
+          </div>
+
+          <!-- Asunto -->
+          <div class="form-group">
+            <label for="asunto">Asunto *</label>
+            <select 
+              id="asunto" 
+              [(ngModel)]="contactoActual.asunto" 
+              name="asunto" 
+              required
+              #asuntoCtrl="ngModel"
+              class="input-validation"
+              [class.is-invalid]="asuntoCtrl.invalid && asuntoCtrl.touched"
+              [class.is-valid]="asuntoCtrl.valid && asuntoCtrl.touched">
+              <option value="">Selecciona un asunto...</option>
+              <option value="Consulta">Consulta General</option>
+              <option value="Problema">Reportar un Problema</option>
+              <option value="Sugerencia">Sugerencia de Mejora</option>
+              <option value="Feedback">Feedback</option>
+              <option value="Otro">Otro</option>
+            </select>
+            <div class="error-message" *ngIf="asuntoCtrl.invalid && asuntoCtrl.touched">
+              <span *ngIf="asuntoCtrl.errors?.['required']">El asunto es obligatorio</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Mensaje (ocupa el ancho completo) -->
+        <div class="form-group full-width">
+          <label for="mensaje">Mensaje *</label>
+          <textarea 
+            id="mensaje" 
+            [(ngModel)]="contactoActual.mensaje"
+            name="mensaje" 
+            placeholder="Cuéntanos tu consulta o comentario..."
+            required
+            minlength="10"
+            maxlength="500"
+            rows="6"
+            #mensajeCtrl="ngModel"
+            class="input-validation"
+            [class.is-invalid]="mensajeCtrl.invalid && mensajeCtrl.touched"
+            [class.is-valid]="mensajeCtrl.valid && mensajeCtrl.touched"></textarea>
+          <div class="char-count">{{ contactoActual.mensaje.length || 0 }}/500</div>
+          <div class="error-message" *ngIf="mensajeCtrl.invalid && mensajeCtrl.touched">
+            <span *ngIf="mensajeCtrl.errors?.['required']">El mensaje es obligatorio</span>
+            <span *ngIf="mensajeCtrl.errors?.['minlength']">Mínimo 10 caracteres</span>
+          </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="cancelar()">Cancelar</button>
+          <button type="submit" class="btn-save" [disabled]="contactoForm.invalid">
+            {{ editando ? '💾 Actualizar Mensaje' : '📤 Enviar Mensaje' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Sección del listado (solo para admin) -->
+  <section class="list-section" *ngIf="modoListado && !modoFormulario">
+    <div class="list-header">
+      <h2>📋 Mensajes Recibidos</h2>
+      <button type="button" class="btn-new" (click)="abrirFormularioNuevo()">
+        <span aria-hidden="true">+</span> Nuevo Mensaje
+      </button>
+    </div>
+
+    <div class="loading" *ngIf="cargando">
+      <p>Cargando mensajes...</p>
+    </div>
+
+    <div class="no-data" *ngIf="!cargando && contactos.length === 0">
+      <p>📭 No hay mensajes aún</p>
+    </div>
+
+    <div class="table-responsive" *ngIf="!cargando && contactos.length > 0">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Asunto</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let contacto of contactos">
+            <td data-label="Nombre">{{ contacto.nombre }}</td>
+            <td data-label="Email">{{ contacto.email }}</td>
+            <td data-label="Asunto">{{ contacto.asunto }}</td>
+            <td data-label="Estado">
+              <span class="badge" [ngClass]="badgeClass(contacto.estado || 'Nuevo')">
+                {{ contacto.estado || 'Nuevo' }}
+              </span>
+            </td>
+            <td data-label="Acciones">
+              <button type="button" class="btn-edit" (click)="editarContacto(contacto)" title="Editar">
+                ✏️
+              </button>
+              <button type="button" class="btn-delete" (click)="eliminarContacto(contacto.id!)" title="Eliminar">
+                🗑️
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Sección de contacto inicial (cuando no hay formulario ni listado) -->
+  <section class="contact-intro" *ngIf="!modoFormulario && !modoListado">
+    <div class="intro-card">
+      <div class="intro-header">
+        <h2>¿Necesitas Ayuda? 💬</h2>
+        <p>Estamos aquí para resolver tus dudas</p>
+      </div>
+
+      <div class="intro-content">
+        <p>Si tienes alguna pregunta sobre nuestros viajes, necesitas reportar un problema o deseas compartir sugerencias, ¡no dudes en contactarnos!</p>
+        
+        <div class="contact-methods">
+          <div class="method">
+            <span class="icon">📞</span>
+            <h3>Teléfono</h3>
+            <p>+51 1 2345 6789</p>
+          </div>
+          <div class="method">
+            <span class="icon">📧</span>
+            <h3>Email</h3>
+            <p>contacto@thetouristperu.com</p>
+          </div>
+          <div class="method">
+            <span class="icon">⏰</span>
+            <h3>Horario</h3>
+            <p>Lun - Dom: 9:00 - 18:00</p>
+          </div>
+        </div>
+
+        <button type="button" class="btn-large" (click)="abrirFormularioNuevo()">
+          <span aria-hidden="true">✉️</span> Envía un Mensaje
+        </button>
+      </div>
+    </div>
+  </section>
+
+</main>
